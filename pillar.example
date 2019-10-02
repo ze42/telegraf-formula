@@ -1,0 +1,32 @@
+telegraf:
+  lookup:
+    package: telegraf
+    config_file: /etc/telegraf/telegraf.conf
+    service: telegraf
+
+  config:
+    # Configuration that will be dumped into telegraf.conf
+    global_tags:
+      foo: bar
+    agent:
+      hostname: mynicehost
+    outputs:
+      influxdb:
+      - urls:
+        - https://influxdb.example.tld/
+        database: "example"
+        username: "influx-user"
+        password: "influx-s3cr3t"
+
+
+
+  # Disable some default inputs/outputs
+  disable_default_inputs:
+  - swap
+  - processes
+  disable_default_outputs:
+  - influxdb
+
+  # Or disable all inputs/outputs
+  disable_default_inputs: true
+  disable_default_outputs: true
