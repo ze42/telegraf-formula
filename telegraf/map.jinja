@@ -6,6 +6,7 @@
         'package': 'telegraf',
         'package_toml': 'python-pytoml',
         'config_file': '/etc/telegraf/telegraf.conf',
+        'group': 'telegraf',
         'service': 'telegraf',
     },
 }, merge=salt['pillar.get']('telegraf:lookup')) %}

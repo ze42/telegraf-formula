@@ -23,6 +23,8 @@ telegraf_package:
 telegraf_config:
   file.serialize:
   - name: {{ data.lookup.config_file }}
+  - mode: 640
+  - group: {{ data.lookup.group }}
   - formatter: toml
   - dataset: {{ data.config|json }}
   - require:
