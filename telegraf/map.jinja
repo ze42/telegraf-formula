@@ -4,12 +4,20 @@
 {%- set lookup = salt['grains.filter_by']({
     'Debian': {
         'package': 'telegraf',
-        'package_toml': 'python-pytoml',
+        'package_toml_py2': 'python-pytoml',
+        'package_toml_py3': 'python3-pytoml',
         'config_file': '/etc/telegraf/telegraf.conf',
         'group': 'telegraf',
         'service': 'telegraf',
     },
 }, merge=salt['pillar.get']('telegraf:lookup')) %}
+{% if 'package_toml' not in lookup %}
+{%   if grains.get('pythonversion', [2])[0] == 3 %}
+{%     do lookup.update({'package_toml': lookup['package_toml_py3']}) %}
+{%   else %}
+{%     do lookup.update({'package_toml': lookup['package_toml_py2']}) %}
+{%   endif %}
+{% endif %}
 
 {% set data = {
     'config': config,
